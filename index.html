@@ -9,7 +9,7 @@
     <style>
         body,
         html {
-            height: 500px;
+            /* height: 500px; */
             margin: 0;
             background-color: rgb(255, 255, 255);
         }
@@ -19,6 +19,16 @@
             display: flex;
             flex-direction: column;
             height: 100%;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .container_flex {
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            align-items: center;
+            /* height: 100%; */
         }
 
 
@@ -32,11 +42,13 @@
 
         .column {
             flex: 1;
+
         }
 
         .qr-input {
             background-color: rgb(255, 255, 255);
             margin: 0 auto;
+            padding-left: 100px;
 
         }
 
@@ -67,20 +79,22 @@
         #backgroundSquare {
             width: 300px;
             height: 300px;
+
             z-index: 0;
             border: solid 0px #ca5da6;
             border-radius: 15px;
         }
 
         #selectedImage {
-            width: 256px;
-            height: 256px;
+            /*ダウンロード画質向上のため追加*/
+            transform: scale(0.1);
+            transform-origin: center center;
             z-index: 1;
         }
 
         #qrcode {
-            width: 256px;
-            height: 256px;
+            transform: scale(0.1);
+            transform-origin: center center;
             z-index: 2;
         }
 
@@ -88,7 +102,6 @@
         .textBox {
             background: #f7f7f7;
             border-bottom: solid 5px #c7c7c7;
-            /* border:solid 1px #c7c7c7; */
             color: #ffffff;
             padding: 5px 45px 5px 10px;
             border-radius: 0.5em;
@@ -122,89 +135,105 @@
             justify-content: center;
             align-items: center;
             margin: auto;
-            width: 80%;
+            width: 800px;
             font-size: small;
             border-top: 1px solid #929292
+        }
+
+        @media (max-width: 1000px) {
+            .container_flex {
+                flex-direction: column;
+            }
+            .footer {
+                width: 80%;
+            }
+            .qr-input {
+            padding-left: 0px;
+
+        }
         }
     </style>
     <title>QR Code Generator with Image Overlay</title>
 </head>
 
 <body>
+    <div class="head"><b>QRcode Plus Pictures</b></div>
 
     <div class="container">
-        <div class="column head"><b>QRcode Plus Pictures</b></div>
-        <div class="column qr-column">
-            <div id="qrcode-container">
-                <canvas id="backgroundSquare"></canvas>
-                <canvas id="selectedImage"></canvas>
-                <div id="qrcode"></div>
-            </div>
+        <div class="container_flex">
             <div>
-                <button class=download onclick="downloadCompositeImage()">Download</button>
+                <div class="column qr-column">
+                    <div id="qrcode-container">
+                        <canvas id="backgroundSquare"></canvas>
+                        <canvas id="selectedImage"></canvas>
+                        <div id="qrcode"></div>
+                    </div>
+                    <div>
+                        <button class=download onclick="downloadCompositeImage()">Download</button>
+                    </div>
+                </div>
             </div>
-        </div>
 
-        <div class="column qr-input">
-            <p><span class=textBox><b><em>Information</em></b></span></p>
-            <div id="user-input">
-            </div><b>data:</b>
-            <input id="urlInput" class="text" cols="40" rows="3" placeholder="Input your data"
-                onchange="handleChange(event)"></input>
-            <br><br>
-
-            <div><b>dots:</b>
-                <input type="color" id="colorDarkInput" value="#029C33" onchange="handleChange(event)">
-            </div><br>
-            <div><b>background:</b>
-
-                <input type="color" id="colorLightInput" value="#ffffff" onchange="handleChange(event)">
-            </div>
-            <br>
-            <div>
-                <b>style:</b>
-                <input type="radio" id="radioButton" name="circleOrS" value="circle" checked
-                    onchange="handleChange(event)" /><label>&#9899;</label>
-                <input type="radio" id="radioButton" name="circleOrS" value="square"
-                    onchange="handleChange(event)" /><label>&#9608;</label>
-            </div><br>
-            <div>
-                <b>size:</b>
-
-                <label style="font-size:xx-small;">&#9899;</label><input type="range" id="circleLevel" min="0.3" max="1"
-                    step="0.1" value="0.7" onchange="handleChange(event)"><label
-                    style="font-size:large;">&#9899;</label>
-            </div>
-            <br>
-            <br>
-            <p><span class=textBox><b><em>Option/Picture</em></b></span></p>
-            <div><b>file:</b>
-
-                <input type="file" id="imageInput" accept="image/*" onchange="handleImageChange(event)">
-            </div> <br>
-            <div>
-                <b>color:</b>
-
-                <input type="radio" id="mono" name="colOrMono" value="mono" checked
-                    onchange="handleChange(event)" /><label>monochrome</label>
-                <input type="radio" id="color" name="colOrMono" value="color"
-                    onchange="handleChange(event)" /><label>color</label>
-            </div><br>
-            <div id="onlyMono"><b>contrast:</b>
-                Low<input type="range" id="thresholdSlider" min="0" max="255" step="1" value="128"
-                    onchange="handleChange(event)">High
-
+            <div class="column qr-input">
+                <p><span class=textBox><b><em>Information</em></b></span></p>
+                <div id="user-input">
+                </div><b>data:</b>
+                <input id="urlInput" class="text" cols="40" rows="3" placeholder="Input your data"
+                    onchange="handleChange(event)"></input>
                 <br><br>
-                <b>picture's color:</b>
-                <input type="color" id="colorPicker" value="#666666" onchange="handleChange(event)">
-            </div>
-            <br>
 
-            <br><br><br>
+                <div><b>dots:</b>
+                    <input type="color" id="colorDarkInput" value="#029C33" onchange="handleChange(event)">
+                </div><br>
+                <div><b>background:</b>
+
+                    <input type="color" id="colorLightInput" value="#ffffff" onchange="handleChange(event)">
+                </div>
+                <br>
+                <div>
+                    <b>style:</b>
+                    <input type="radio" id="radioButton" name="circleOrS" value="circle" checked
+                        onchange="handleChange(event)" /><label>&#9899;</label>
+                    <input type="radio" id="radioButton" name="circleOrS" value="square"
+                        onchange="handleChange(event)" /><label>&#9608;</label>
+                </div><br>
+                <div>
+                    <b>size:</b>
+
+                    <label style="font-size:xx-small;">&#9899;</label><input type="range" id="circleLevel" min="0.3"
+                        max="1" step="0.1" value="0.7" onchange="handleChange(event)"><label
+                        style="font-size:large;">&#9899;</label>
+                </div>
+                <br>
+                <br>
+                <p><span class=textBox><b><em>Option/Picture</em></b></span></p>
+                <div><b>file:</b>
+
+                    <input type="file" id="imageInput" accept="image/*" onchange="handleImageChange(event)">
+                </div> <br>
+                <div>
+                    <b>color:</b>
+
+                    <input type="radio" id="mono" name="colOrMono" value="mono" checked
+                        onchange="handleChange(event)" /><label>monochrome</label>
+                    <input type="radio" id="color" name="colOrMono" value="color"
+                        onchange="handleChange(event)" /><label>color</label>
+                </div><br>
+                <div id="onlyMono"><b>contrast:</b>
+                    Low<input type="range" id="thresholdSlider" min="0" max="255" step="1" value="128"
+                        onchange="handleChange(event)">High
+
+                    <br><br>
+                    <b>picture's color:</b>
+                    <input type="color" id="colorPicker" value="#666666" onchange="handleChange(event)">
+                </div>
+                <br>
+
+                <br><br><br>
+
+            </div>
 
         </div>
-
-
 
         <div class="column footer"> This webpage serves to generate QR codes and composite them with images. The created
             QR
@@ -234,7 +263,7 @@
             var canvasSquare = document.getElementById('backgroundSquare');
             var context = canvasSquare.getContext('2d');
             context.fillStyle = document.getElementById("colorLightInput").value;
-            context.fillRect(0, 0, 400, 400);
+            context.fillRect(0, 0, 400 * 10, 400 * 10);
         }
 
         function generateQRCode(event) {
@@ -244,8 +273,8 @@
 
             qrcode = new QRCode(document.getElementById("qrcode"), {
                 text: url,
-                width: 256,
-                height: 256,
+                width: 256 * 10,
+                height: 256 * 10,
                 colorDark: document.getElementById("colorDarkInput").value,
                 colorLight: document.getElementById("colorLightInput").value,
                 correctLevel: QRCode.CorrectLevel.H,
@@ -256,18 +285,18 @@
 
         function downloadCompositeImage() {
             var canvas = document.createElement("canvas");
-            canvas.width = 300;
-            canvas.height = 300;
+            canvas.width = 300 * 10; /*画質向上のため元画像を10倍に変更*/
+            canvas.height = 300 * 10;
             var ctx = canvas.getContext("2d");
 
             var squareCanvas = document.getElementById("backgroundSquare");
-            ctx.drawImage(squareCanvas, 0, 0, 300, 300);
+            ctx.drawImage(squareCanvas, 0, 0, 300 * 10, 300 * 10);
 
             var imageOverlayCanvas = document.getElementById("selectedImage");
-            ctx.drawImage(imageOverlayCanvas, 22, 22, 256, 256);
+            ctx.drawImage(imageOverlayCanvas, 22 * 10, 22 * 10, 256 * 10, 256 * 10);
 
             var qrcodeCanvas = document.getElementById("qrcode").querySelector("canvas");
-            ctx.drawImage(qrcodeCanvas, 22, 22, 256, 256);
+            ctx.drawImage(qrcodeCanvas, 22 * 10, 22 * 10, 256 * 10, 256 * 10);
 
             var link = document.createElement("a");
             link.href = canvas.toDataURL("image/png");
@@ -291,16 +320,16 @@
                         const canvas = document.getElementById('selectedImage');
                         const ctx = canvas.getContext('2d');
 
-                        // Resize the image to fit within a 256x256 canvas
-                        const scaleFactor = Math.min(256 / img.width, 256 / img.height);
+                        // Resize the image to fit within a 256x256 canvas *10
+                        const scaleFactor = Math.min(256 * 10 / img.width, 256 * 10 / img.height);
                         const newWidth = img.width * scaleFactor;
                         const newHeight = img.height * scaleFactor;
 
-                        canvas.width = 256;
-                        canvas.height = 256;
+                        canvas.width = 256 * 10;
+                        canvas.height = 256 * 10;
 
                         // Draw the resized image onto the canvas
-                        ctx.drawImage(img, (256 - newWidth) / 2, (256 - newHeight) / 2, newWidth, newHeight);
+                        ctx.drawImage(img, (256 * 10 - newWidth) / 2, (256 * 10 - newHeight) / 2, newWidth, newHeight);
 
                         const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
                         const data = imageData.data;
@@ -365,7 +394,7 @@
             background.style.backgroundColor = color;
             head[0].style.color = color;
             for (var i = 0; i < textBox.length; i++) {
-            textBox[i].style.color = color;;
+                textBox[i].style.color = color;;
             }
 
         }
